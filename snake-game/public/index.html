@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Snake Game</title>
+    <link rel="stylesheet" href="style.css">
+    <h2>Snake Game</h2>
+
+    <div class="hud">
+        <div>Level: <span id="levelName">Easy</span></div>
+        <div>Score: <span id="scoreDisplay">0</span></div>
+        <div>Speed: <span id="speedDisplay">200</span> ms</div>
+    </div>
+
+    <canvas id="game" width="400" height="400"></canvas>
+
+    <!-- Level overlay shown when a level is completed -->
+    <div id="levelOverlay" class="overlay hidden">
+        <div class="overlay-content">
+            <h3 id="overlayTitle">Level Complete</h3>
+            <p id="overlayText">Siap melanjutkan ke level berikutnya?</p>
+            <button id="nextLevelBtn">Lanjut Level</button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+    <!-- <script src="game.js"></script> -->
+    </body>
+
+</html>
