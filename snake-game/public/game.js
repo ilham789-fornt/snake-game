@@ -15,7 +15,7 @@ const nextLevelBtn = document.getElementById("nextLevelBtn");
 // ==========================
 // SNAKE
 // ==========================
-let snake = [{x:200,y:200}];
+let snake = [{ x: 200, y: 200 }];
 
 let dx = 20;
 let dy = 0;
@@ -47,7 +47,7 @@ let gameOver = false;
 // ==========================
 // GENERATE FOOD
 // ==========================
-function generateFood(){
+function generateFood() {
     return {
         x: Math.floor(Math.random() * 20) * 20,
         y: Math.floor(Math.random() * 20) * 20
@@ -57,7 +57,7 @@ function generateFood(){
 // ==========================
 // DRAW SNAKE
 // ==========================
-function drawSnake(){
+function drawSnake() {
     snake.forEach(part => {
         ctx.fillStyle = "green";
         ctx.fillRect(part.x, part.y, 20, 20);
@@ -67,7 +67,7 @@ function drawSnake(){
 // ==========================
 // DRAW FOOD
 // ==========================
-function drawFood(){
+function drawFood() {
     ctx.fillStyle = "red";
     ctx.fillRect(food.x, food.y, 20, 20);
 }
@@ -75,7 +75,7 @@ function drawFood(){
 // ==========================
 // DRAW SCORE
 // ==========================
-function drawScore(){
+function drawScore() {
     // Update HTML HUD if elements exist
     const levelNameEl = document.getElementById("levelName");
     const scoreDisplayEl = document.getElementById("scoreDisplay");
@@ -95,39 +95,39 @@ function drawScore(){
 // ==========================
 // MOVE SNAKE
 // ==========================
-function moveSnake(){
+function moveSnake() {
     let head = {
         x: snake[0].x + dx,
         y: snake[0].y + dy
     };
-    
+
     // wrap easy-medium
-    if(level !== "Level 5"){
-        if(head.x >= canvas.width) {
+    if (level !== "Level 5") {
+        if (head.x >= canvas.width) {
             head.x = 0;
         }
-        if(head.x < 0) {
+        if (head.x < 0) {
             head.x = canvas.width - 20;
         }
-        if(head.y >= canvas.height) {
+        if (head.y >= canvas.height) {
             head.y = 0;
         }
-        if(head.y < 0) {
+        if (head.y < 0) {
             head.y = canvas.height - 20;
         }
     }
     // hard mode
     else {
-        if(
+        if (
             head.x < 0 ||
-            head.x >= canvas.width ||
+            head.x >= canvas.width - 20 ||
             head.y < 0 ||
             head.y >= canvas.height
-        ){
+        ) {
             gameOver = true;
         }
     }
-    
+
     snake.unshift(head);
     snake.pop();
 }
@@ -135,14 +135,14 @@ function moveSnake(){
 // ==========================
 // CHECK FOOD
 // ==========================
-function checkFood(){
-    if(
+function checkFood() {
+    if (
         snake[0].x === food.x &&
         snake[0].y === food.y
-    ){
+    ) {
         snake.push({});
         food = generateFood();
-        score += 1;
+        score += 20;
         updateLevel();
     }
 }
@@ -150,34 +150,34 @@ function checkFood(){
 // ==========================
 // UPDATE LEVEL
 // ==========================
-function updateLevel(){
+function updateLevel() {
     // LEVEL 1
-    if(score <= 25){
-        if(level !== "Level 1"){
+    if (score <= 25) {
+        if (level !== "Level 1") {
             showLevelTransition("1");
         }
         level = "Level 1";
         gameSpeed = 250;
     }
     // LEVEL 2
-    else if(score <= 50){
-        if(level !== "Level 2"){
+    else if (score <= 50) {
+        if (level !== "Level 2") {
             showLevelTransition("2");
         }
         level = "Level 2";
         gameSpeed = 200;
     }
     // LEVEL 3
-    else if(score <= 75){
-        if(level !== "Level 3"){
+    else if (score <= 75) {
+        if (level !== "Level 3") {
             showLevelTransition("3");
         }
         level = "Level 3";
         gameSpeed = 150;
     }
     // LEVEL 4
-    else if(score <= 100){
-        if(level !== "Level 4"){
+    else if (score <= 100) {
+        if (level !== "Level 4") {
             showLevelTransition("4");
         }
         level = "Level 4";
@@ -185,7 +185,7 @@ function updateLevel(){
     }
     // LEVEL 5
     else {
-        if(level !== "Level 5"){
+        if (level !== "Level 5") {
             showLevelTransition("5");
         }
         level = "Level 5";
@@ -196,7 +196,7 @@ function updateLevel(){
 // ==========================
 // LEVEL TRANSITION
 // ==========================
-function showLevelTransition(newLevel){
+function showLevelTransition(newLevel) {
     pauseLevel = true;
     levelPanel.classList.remove("hidden");
     levelText.innerText = "LEVEL " + newLevel;
@@ -215,13 +215,13 @@ nextLevelBtn.addEventListener("click", () => {
 // ==========================
 // COLLISION BODY
 // ==========================
-function checkCollision(){
+function checkCollision() {
     const head = snake[0];
-    for(let i = 1; i < snake.length; i++){
-        if(
+    for (let i = 1; i < snake.length; i++) {
+        if (
             head.x === snake[i].x &&
             head.y === snake[i].y
-        ){
+        ) {
             gameOver = true;
         }
     }
@@ -230,11 +230,11 @@ function checkCollision(){
 // ==========================
 // GAME OVER
 // ==========================
-function drawGameOver(){
+function drawGameOver() {
     ctx.fillStyle = "black";
     ctx.font = "30px Arial";
     ctx.fillText("GAME OVER", 110, 180);
-    
+
     ctx.fillStyle = "#333";
     ctx.font = "16px Arial";
     ctx.fillText("Tekan ENTER atau KLIK", 115, 220);
@@ -253,20 +253,17 @@ canvas.addEventListener("click", () => {
 // ==========================
 document.addEventListener("keydown", (event) => {
     const key = event.key;
-    
-    if(key === "ArrowUp" && dy === 0){
+
+    if (key === "ArrowUp" && dy === 0) {
         dx = 0;
         dy = -20;
-    }
-    else if(key === "ArrowDown" && dy === 0){
+    } else if (key === "ArrowDown" && dy === 0) {
         dx = 0;
         dy = 20;
-    }
-    else if(key === "ArrowLeft" && dx === 0){
+    } else if (key === "ArrowLeft" && dx === 0) {
         dx = -20;
         dy = 0;
-    }
-    else if(key === "ArrowRight" && dx === 0){
+    } else if (key === "ArrowRight" && dx === 0) {
         dx = 20;
         dy = 0;
     }
@@ -279,23 +276,23 @@ document.addEventListener("keydown", (event) => {
 // ==========================
 // GAME LOOP
 // ==========================
-function gameLoop(){
-    if(pauseLevel) return;
-    
+function gameLoop() {
+    if (pauseLevel) return;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    if(gameOver){
+
+    if (gameOver) {
         drawGameOver();
         return;
     }
-    
+
     moveSnake();
     checkFood();
     checkCollision();
     drawSnake();
     drawFood();
     drawScore();
-    
+
     setTimeout(gameLoop, gameSpeed);
 }
 
